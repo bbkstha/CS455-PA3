@@ -56,8 +56,8 @@ public class Job6Reducer2 extends Reducer<Text,Text,Text,Text> {
                                 Integer builtYear = (split[8].contains("year")||split[8].contains("None")) ? 0 : Integer.parseInt(split[8]);
                                 String ageTag = ((2018 - builtYear) < 20) ? "NEW" : "OLD";
                                 planeLookupTable.put(tailNumber, ageTag);
-                                System.out.println("The palne lookup buiding..key is: " + tailNumber);
-                                System.out.println("The plane lookup buiding..value is: " + ageTag);
+                                //System.out.println("The palne lookup buiding..key is: " + tailNumber);
+                                //System.out.println("The plane lookup buiding..value is: " + ageTag);
                             }
                         }
                     }
@@ -94,7 +94,7 @@ public class Job6Reducer2 extends Reducer<Text,Text,Text,Text> {
             Set<String> keys = sortedCountDelay.keySet();
             String[] keysArray = keys.toArray(new String[keys.size()]);
             for (int i = 0; i < keysArray.length && i < 10; i++) {
-                context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray[i])), new Text("\t\t\tNumber of times delay occured: "+Integer.toString(sortedCountDelay.get(keysArray[i]))));
+                context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray[i])), new Text("\t\t\t\tNumber of times delay occured: "+Integer.toString(sortedCountDelay.get(keysArray[i]))));
             }
             //System.out.println("The value of lookup is: "+airportLookupTable.get("ORD"));
             context.write(null, new Text("\n"));
@@ -104,7 +104,7 @@ public class Job6Reducer2 extends Reducer<Text,Text,Text,Text> {
             for (int i = 0; i < keysArray1.length && i < 10; i++) {
                 //System.out.println("The keys are: "+keysArray1[i]);
                 //System.out.println("The value of lookup inside is: "+airportLookupTable.get(keysArray1[i]));
-                context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray1[i])), new Text("\t\t\tTotal delays in minutes: "+Integer.toString(sortedTotalDelay.get(keysArray1[i]))));
+                context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray1[i])), new Text("\t\t\t\tTotal delays in minutes: "+Integer.toString(sortedTotalDelay.get(keysArray1[i]))));
             }
 
             context.write(null, new Text("\n"));
@@ -112,7 +112,7 @@ public class Job6Reducer2 extends Reducer<Text,Text,Text,Text> {
             Set<String> keys2 = sortedAvgDelay.keySet();
             String[] keysArray2 = keys2.toArray(new String[keys2.size()]);
             for (int i = 0; i < keysArray2.length && i < 10; i++) {
-                context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray2[i])), new Text("\t\t\tAvegrage Delay in minutes: "+Float.toString(sortedAvgDelay.get(keysArray2[i]))));
+                context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray2[i])), new Text("\t\t\t\tAvegrage Delay in minutes: "+Float.toString(sortedAvgDelay.get(keysArray2[i]))));
             }
         }
     }

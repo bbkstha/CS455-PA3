@@ -19,19 +19,23 @@ public class Job1Reducer
         ) throws IOException, InterruptedException {
             int counter = 0;
             int totalDelay = 0;
-            Character firstChar = null;
+
+
             for (Text val : values) {
-                firstChar = val.toString().charAt(0);
-                totalDelay += Integer.parseInt(val.toString().substring(1));
-                counter++;
+                //firstChar = val.toString().charAt(0);
+                    totalDelay += Integer.parseInt(val.toString());
+                    counter++;
             }
+            Character firstChar = key.toString().charAt(0);
             Float avgDelay = totalDelay/(float)counter;
             String output = Integer.toString(counter)+"\t"+Integer.toString(totalDelay)+"\t"+Float.toString(avgDelay);
-            if(firstChar.equals('H'))
-                context.write(key, new Text("H"+output));
-            else if(firstChar.equals('W'))
-                context.write(key, new Text("W"+output));
-            if(firstChar.equals('M'))
-                context.write(key, new Text("M"+output));
+//            if(firstChar.equals('H'))
+//                context.write(new key, new Text(output));
+//            else if(firstChar.equals('W'))
+//                context.write(new Text("W"+key.toString()), new Text(output));
+//            if(firstChar.equals('M'))
+//                context.write(new Text("W"+key.toString()), new Text(output));
+            context.write(key, new Text(output));
+
         }
     }

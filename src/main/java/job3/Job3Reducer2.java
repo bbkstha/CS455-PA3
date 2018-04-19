@@ -57,6 +57,7 @@ public class Job3Reducer2 extends Reducer<Text,Text,Text,Text> {
     ) throws IOException, InterruptedException {
 
         CustomUtility util = new CustomUtility();
+        HashMap<String, Integer> tmpHashMap = new HashMap<>();
         for (Text result : values) {
             String[] elements = result.toString().split("\t");
             if (elements.length == 2) {
@@ -67,9 +68,19 @@ public class Job3Reducer2 extends Reducer<Text,Text,Text,Text> {
                 Integer year = Integer.parseInt(elements[0]);
                 String airportID = elements[1];
                 Integer numberOfFlightsInOut = Integer.parseInt(elements[2]);
-                HashMap<String, Integer> tmpHashMap = new HashMap<>();
-                tmpHashMap.put(airportID, numberOfFlightsInOut);
-                airportTrafficeMapPerYear.put(year, tmpHashMap);
+                if(airportTrafficeMapPerYear.containsKey(year)){
+                    HashMap<String, Integer> tmp = airportTrafficeMapPerYear.get(year);
+                    tmp.put(airportID, numberOfFlightsInOut);
+                    airportTrafficeMapPerYear.put(year ,tmp);
+                }else{
+                    HashMap<String, Integer> tmp1 = new HashMap<>();
+                    tmp1.put(airportID, numberOfFlightsInOut);
+                    airportTrafficeMapPerYear.putIfAbsent(year, tmp1);
+                }
+
+                //
+//                tmpHashMap.put(airportID, numberOfFlightsInOut);
+//                airportTrafficeMapPerYear.put(year+"\t"+airportID, numberOfFlightsInOut);
             }
         }
 
@@ -80,12 +91,12 @@ public class Job3Reducer2 extends Reducer<Text,Text,Text,Text> {
         Set<String> keys = sortedCountTraffice.keySet();
         String[] keysArray = keys.toArray(new String[keys.size()]);
         for (int i = 0; i < keysArray.length && i < 10; i++) {
-            context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray[i])), new Text("\t\t\tNumber of Traffic in whole dataset: "+Integer.toString(sortedCountTraffice.get(keysArray[i]))));
+            context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray[i])), new Text("\t\t\tTraffic : "+Integer.toString(sortedCountTraffice.get(keysArray[i]))));
         }
 
 
         for (Map.Entry<Integer, HashMap<String, Integer>> entrySet : airportTrafficeMapPerYear.entrySet()) {
-            int eachYear = entrySet.getKey();
+            Integer eachYear = entrySet.getKey();
             HashMap<String, Integer> airportMap = entrySet.getValue();
             List<String> sortedyairports = new LinkedList<>();
             context.write(null, new Text("\n"));
@@ -101,7 +112,7 @@ public class Job3Reducer2 extends Reducer<Text,Text,Text,Text> {
                     //System.out.println("The lookup result: " + airportLookupTable.get(keysArray1[i]) +
                     //        " and the value is: " + Integer.toString(sortedCountTrafficePerYear.get(keysArray1[i])));
 
-                    context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray1[i])), new Text("\t\t\tNumber of Traffic in Per Year: "+Integer.toString(sortedCountTrafficePerYear.get(keysArray1[i]))));
+                    context.write(new Text(Integer.toString(i + 1) + ". " + airportLookupTable.get(keysArray1[i])), new Text("\t\t\tTraffic : "+Integer.toString(sortedCountTrafficePerYear.get(keysArray1[i]))));
                 }
             }
         }

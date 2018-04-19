@@ -31,14 +31,15 @@ public class Job5Reducer2 extends Reducer<Text,Text,Text,Text> {
         context.write(null, new Text("Analysis of on-time performance per Plane-Age-Group"));
         Set<Integer> keys = valuesCopy.keySet();
         Integer[] keysArray = keys.toArray(new Integer[keys.size()]);
+        context.write(new Text("SN   AGE\tAGE-BUCKET\tTotal in Operation\t\t\tProportion of Operation(%)\t\t\tTotal Delays\t\t\tProportion of Delays(%)"), null);
         for (int i = 0; i < keysArray.length; i++) {
             Integer operationCount= Integer.parseInt(valuesCopy.get(keysArray[i]).split("\t")[0]);
             double operationProportion = operationCount * 100.0/totalPlaneInOperation;
             Integer totalDelay= Integer.parseInt(valuesCopy.get(keysArray[i]).split("\t")[1]);
             double delayProportion = totalDelay * 100.0/totalDelayInAllAgeTag;
             String ageBucket = keysArray[1]<20 ? "NEW" : "OLD" ;
-            context.write(new Text(Integer.toString(i + 1) + ". AGE: " +keysArray[i]), new Text(" AGE-BUCKET: "+ageBucket+" Total In Operation: "+operationCount+
-            " Proportion of Operation(%): "+operationProportion+ " % "+" Tota Delays: "+totalDelay+" Proportiono of Delays(%): "+delayProportion+" %"));
+            context.write(new Text(Integer.toString(i + 1) + ".\t" +keysArray[i]), new Text("\t\t"+ageBucket+"\t\t\t\t"+operationCount+
+            "\t\t\t\t\t"+operationProportion+ " % "+"\t\t\t\t\t"+totalDelay+"\t\t\t\t\t"+delayProportion+" %"));
         }
     }
 }

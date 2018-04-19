@@ -23,15 +23,15 @@ public class Job1Reducer2 extends Reducer<Text,Text,Text,Text> {
         CustomUtility util = new CustomUtility();
         for (Text result : values) {
             String[] elements = result.toString().split("\t");
-            String timeTag = elements[0];
-            Integer delayCount = Integer.parseInt(elements[1].substring(1).split("\t")[0]);
-            Integer sumDelay = Integer.parseInt(elements[1].substring(1).split("\t")[1]);
-            Float avgDelay = Float.parseFloat(elements[1].substring(1).split("\t")[1]);
-            if (elements[1].charAt(0) == 'H')
+            String timeTag = elements[0].toString().substring(1);
+            Integer delayCount = Integer.parseInt(elements[1]);
+            Integer sumDelay = Integer.parseInt(elements[2]);
+            Float avgDelay = Float.parseFloat(elements[3]);
+            if (elements[0].charAt(0) == 'H')
                 hourToDelayMap.put(timeTag, avgDelay);
-            else if (elements[1].charAt(0) == 'W')
+            else if (elements[0].charAt(0) == 'W')
                 dayInWeekToDelayMap.put(timeTag, avgDelay);
-            else if (elements[1].charAt(0) == 'M')
+            else if (elements[0].charAt(0) == 'M')
                 monthInYearToMap.put(timeTag, avgDelay);
         }
 
@@ -63,7 +63,7 @@ public class Job1Reducer2 extends Reducer<Text,Text,Text,Text> {
         }
         context.write(null, new Text("\n"));
         context.write(null, new Text("Top 10 Best Day of Week to travel:"));
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i < keysArray1.length && i <= 10; i++) {
             context.write(new Text(Integer.toString(i) + ". " + keysArray1[keysArray1.length - i]), new Text("\t\t\tAvg delay occured: " + Float.toString(sortedWeeklyDelay.get(keysArray1[keysArray1.length - i]))));
         }
 
@@ -76,7 +76,7 @@ public class Job1Reducer2 extends Reducer<Text,Text,Text,Text> {
         }
         context.write(null, new Text("\n"));
         context.write(null, new Text("Top 10 Best Month of Year to travel:"));
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1;i < keysArray2.length && i <= 10; i++) {
             context.write(new Text(Integer.toString(i) + ". " + keysArray2[keysArray2.length - i]), new Text("\t\t\tAvg delay occured: " + Float.toString(sortedMonthlyDelay.get(keysArray2[keysArray2.length - i]))));
         }
     }

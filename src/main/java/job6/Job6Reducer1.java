@@ -16,9 +16,10 @@ public class Job6Reducer1 extends Reducer<Text,Text,Text,Text> {
     ) throws IOException, InterruptedException {
         int counter = 0;
         int totalWeatherDelay = 0;
-        for (Text val : values) {
-            totalWeatherDelay += Integer.parseInt(val.toString());
-            counter++;
+        for(Text val:values){
+
+            totalWeatherDelay+=Integer.parseInt(val.toString().split("\t")[0]);
+            counter+=Integer.parseInt(val.toString().split("\t")[1]);
         }
         Float avgWeatherDelay = totalWeatherDelay/(float)counter;
 //        System.out.println("The total number is: "+counter);

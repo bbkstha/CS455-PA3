@@ -15,7 +15,7 @@ public class Job3Reducer1 extends Reducer<Text,Text,Text,Text> {
     ) throws IOException, InterruptedException {
         int counter = 0;
         for (Text val : values) {
-            counter++;
+            counter+=Integer.parseInt(val.toString());
         }
         result.set(Integer.toString(counter));
         context.write(key, result);

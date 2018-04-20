@@ -12,11 +12,6 @@ public class Job3Mapper1 extends Mapper<Object, Text, Text, Text> {
         String eachLine = value.toString();
         if(!eachLine.startsWith("Year") && !eachLine.startsWith("NA")){
             String [] elements= eachLine.split(",");
-            for (int i = 0; i < elements.length; i++) {
-                if (elements[i].equalsIgnoreCase("NA")) {
-                    elements[i] = "0";
-                }
-            }
             String originAirport = elements[16].equals("NA") ? "0": elements[16];
             String destAirport = elements[17].equals("NA") ? "0": elements[17];
             String year = elements[0].equals("NA") ? "0": elements[0];

@@ -30,9 +30,9 @@ public class Job1Mapper
                 String depDelay = elements[15];//.equals("NA") ? "0" : elements[15];
                 Integer totalDelay = Integer.parseInt(arrDelay) + Integer.parseInt(depDelay);
 
-                context.write(new Text("H"+Integer.toString(depTimeHour)), new Text(totalDelay.toString()));
-                context.write(new Text("W"+Integer.toString(dayOfWeek)), new Text(Integer.toString(totalDelay)));
-                context.write(new Text("M"+Integer.toString(monthOfYear)), new Text(Integer.toString(totalDelay)));
+                context.write(new Text("H"+Integer.toString(depTimeHour)), new Text(totalDelay+"\t"+"1"));
+                context.write(new Text("W"+Integer.toString(dayOfWeek)), new Text(Integer.toString(totalDelay)+"\t"+"1"));
+                context.write(new Text("M"+Integer.toString(monthOfYear)), new Text(Integer.toString(totalDelay)+"\t"+"1"));
             }
         }
     }

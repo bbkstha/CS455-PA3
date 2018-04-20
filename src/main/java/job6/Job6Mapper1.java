@@ -17,8 +17,8 @@ public class Job6Mapper1 extends Mapper<Object, Text, Text, Text> {
             String originAirport = elements[16].equals("NA") ? "0": elements[16];
             String destAirport = elements[17].equals("NA") ? "0": elements[17];
             String weatherDelay = elements[25].equals("NA") ? "0": elements[25];
-            context.write(new Text(originAirport), new Text(weatherDelay));
-            context.write(new Text(destAirport), new Text(weatherDelay));
+            context.write(new Text(originAirport), new Text(weatherDelay+"\t"+"1"));
+            context.write(new Text(destAirport), new Text(weatherDelay+"\t"+"1"));
         }
     }
 }

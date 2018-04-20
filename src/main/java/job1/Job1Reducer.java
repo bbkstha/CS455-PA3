@@ -17,15 +17,14 @@ public class Job1Reducer
         public void reduce(Text key, Iterable<Text> values,
                            Context context
         ) throws IOException, InterruptedException {
-            int counter = 0;
-            int totalDelay = 0;
-
-
-            for (Text val : values) {
+            int counter=0;
+            int totalDelay=0;
+            for(Text val:values){
                 //firstChar = val.toString().charAt(0);
-                    totalDelay += Integer.parseInt(val.toString());
-                    counter++;
+                totalDelay+=Integer.parseInt(val.toString().split("\t")[0]);
+                counter+=Integer.parseInt(val.toString().split("\t")[1]);
             }
+
             Character firstChar = key.toString().charAt(0);
             Float avgDelay = totalDelay/(float)counter;
             String output = Integer.toString(counter)+"\t"+Integer.toString(totalDelay)+"\t"+Float.toString(avgDelay);

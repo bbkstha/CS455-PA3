@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class Job5Mapper1 extends Mapper<Object, Text, IntWritable, Text> {
+public class Job5Mapper1 extends Mapper<Object, Text, Text, Text> {
 
     private HashMap<String, String> airportLookupTable = new HashMap<String, String>();
     private HashMap<String, String> planeLookupTable = new HashMap<String, String>();
@@ -50,7 +50,8 @@ public class Job5Mapper1 extends Mapper<Object, Text, IntWritable, Text> {
                                     Integer builtYear = Integer.parseInt(split[8]);
                                     Integer planeAge = 2009 - builtYear; //newest airplane can be built by 2008
                                     String ageTag = (planeAge < 20) ? "NEW" : "OLD";
-                                    planeLookupTable.put(tailNumber, (planeAge.toString() + "\t" + ageTag));
+                                    if(planeAge!=2009)
+                                        planeLookupTable.put(tailNumber, (planeAge.toString() + "\t" + ageTag));
                                 }
                                 //System.out.println("The palne lookup buiding..key is: " + tailNumber);
                                 //System.out.println("The plane lookup buiding..value is: " + ageTag);
@@ -73,11 +74,11 @@ public class Job5Mapper1 extends Mapper<Object, Text, IntWritable, Text> {
             String depDelay = elements[15].equals("NA") ? "0": elements[15];
             Integer totalDelay = Integer.parseInt(arrDelay)+Integer.parseInt(depDelay);
             if(planeLookupTable.get(tailNumber)!=null){
-                Integer age = Integer.parseInt(planeLookupTable.get(tailNumber).split("\t")[0]);
+                String age = planeLookupTable.get(tailNumber).split("\t")[0];
                 String ageTag = planeLookupTable.get(tailNumber).split("\t")[1];
                 //System.out.println("The age in map() is: "+age);
                 //System.out.println("The ageTag in map() is: "+ageTag);
-                context.write(new IntWritable(age), new Text(tailNumber+"\t"+ageTag+"\t"+totalDelay.toString()));
+                context.write(new Text(age), new Text(totalDelay.toString()+"\t"+"1"));
             }
         }
     }

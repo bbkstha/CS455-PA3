@@ -17,9 +17,9 @@ public class Job7Mapper1 extends Mapper<Object, Text, Text, Text> {
             String arrDelay = elements[14].equals("NA") ? "0": elements[14];
             String depDelay = elements[15].equals("NA") ? "0": elements[15];
             Integer totalDelay = Integer.parseInt(arrDelay)+Integer.parseInt(depDelay);
-            if(elements[25].equals("1")){
-                context.write(new Text(originAirport), new Text(totalDelay.toString()+elements[8]+"\t"+elements[10]));
-                context.write(new Text(destAirport), new Text(totalDelay.toString()+elements[8]+"\t"+elements[10]));
+            if(elements[23].equals("1")){
+                context.write(new Text(originAirport+"\t"+elements[8]+"\t"+elements[10].toString()), new Text(totalDelay.toString()+"\t"+"1"));
+                context.write(new Text(destAirport+"\t"+elements[8]+"\t"+elements[10].toString()), new Text(totalDelay.toString()+"\t"+"1"));
             }
 
         }

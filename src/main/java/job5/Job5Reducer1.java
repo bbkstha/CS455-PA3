@@ -6,20 +6,21 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class Job5Reducer1 extends Reducer<IntWritable,Text,IntWritable,Text> {
+public class Job5Reducer1 extends Reducer<Text,Text,Text,Text> {
 
     private Text result = new Text();
     @Override
-    public void reduce(IntWritable key, Iterable<Text> values,
+    public void reduce(Text key, Iterable<Text> values,
                    Context context
         ) throws IOException, InterruptedException {
 
 
-        Integer counter = 0;
-        Integer totalDelay = 0;
-        for (Text val : values) {
-            totalDelay += Integer.parseInt(val.toString().split("\t")[2]);
-            counter++;
+        int counter=0;
+        int totalDelay=0;
+        for(Text val:values){
+            //firstChar = val.toString().charAt(0);
+            totalDelay+=Integer.parseInt(val.toString().split("\t")[0]);
+            counter+=Integer.parseInt(val.toString().split("\t")[1]);
         }
         result.set(Integer.toString(counter)+"\t"+Integer.toString(totalDelay));
         context.write(key, result);

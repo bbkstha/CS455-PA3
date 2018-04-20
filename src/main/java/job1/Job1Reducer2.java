@@ -55,14 +55,14 @@ public class Job1Reducer2 extends Reducer<Text,Text,Text,Text> {
         }
 
         context.write(null, new Text("\n"));
-        context.write(null, new Text("Top 10 Worst Day of Week to travel:"));
+        context.write(null, new Text("Top 7 Worst Day of Week to travel:"));
         Set<String> keys1 = sortedWeeklyDelay.keySet();
         String[] keysArray1 = keys1.toArray(new String[keys1.size()]);
         for (int i = 0; i < keysArray1.length && i < 10; i++) {
             context.write(new Text(Integer.toString(i + 1) + ". " + keysArray1[i]), new Text("\t\t\tAvg delay occured: " + Float.toString(sortedWeeklyDelay.get(keysArray1[i]))));
         }
         context.write(null, new Text("\n"));
-        context.write(null, new Text("Top 10 Best Day of Week to travel:"));
+        context.write(null, new Text("Top 7 Best Day of Week to travel:"));
         for (int i = 1; i < keysArray1.length && i <= 10; i++) {
             context.write(new Text(Integer.toString(i) + ". " + keysArray1[keysArray1.length - i]), new Text("\t\t\tAvg delay occured: " + Float.toString(sortedWeeklyDelay.get(keysArray1[keysArray1.length - i]))));
         }

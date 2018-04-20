@@ -24,7 +24,7 @@ public class Job4Mapper1 extends Mapper<Object, Text, Text, Text> {
                 String arrDelay = elements[14].equals("NA") ? "0" : elements[14];
                 String depDelay = elements[15].equals("NA") ? "0" : elements[15];
                 Integer totalDelay = Integer.parseInt(arrDelay) + Integer.parseInt(depDelay);
-                context.write(new Text(carrierCode), new Text(Integer.toString(totalDelay)));
+                context.write(new Text(carrierCode), new Text(Integer.toString(totalDelay)+"\t"+"1"));
             }
         }
     }

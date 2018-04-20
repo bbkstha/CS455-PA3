@@ -15,12 +15,14 @@ public class Job4Reducer1 extends Reducer<Text,Text,Text,Text> {
     ) throws IOException, InterruptedException {
 
 
-        Integer counter = 0;
-        Integer totalDelay = 0;
-        for (Text val : values) {
-            totalDelay += Integer.parseInt(val.toString().split("\t")[0]);
-            counter++;
+        int counter=0;
+        int totalDelay=0;
+        for(Text val:values){
+            //firstChar = val.toString().charAt(0);
+            totalDelay+=Integer.parseInt(val.toString().split("\t")[0]);
+            counter+=Integer.parseInt(val.toString().split("\t")[1]);
         }
+
         Float avgDelay = totalDelay/(float)counter;
         result.set(Integer.toString(counter)+"\t"+Integer.toString(totalDelay)+"\t"+Float.toString(avgDelay));
         context.write(key, result);
